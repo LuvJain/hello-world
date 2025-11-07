@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import console_io, file_io, string_io
+from app.routers import console_io, file_io, string_io, data_structures
 from app.utils.file_manager import cleanup_temp_dir
 import atexit
 
 # Create FastAPI application
 app = FastAPI(
-    title="Python I/O Basics",
-    description="A FastAPI application demonstrating Python input/output operations",
+    title="Python Learning",
+    description="A FastAPI application demonstrating Python basics including I/O operations and data structures",
     version="1.0.0"
 )
 
@@ -28,8 +28,8 @@ atexit.register(cleanup_temp_dir)
 async def root():
     """Root endpoint that returns basic information about the API."""
     return {
-        "message": "Welcome to Python I/O Basics API",
-        "description": "This API demonstrates various input/output operations in Python",
+        "message": "Welcome to Python Learning API",
+        "description": "This API demonstrates Python basics including I/O operations and data structures",
         "endpoints": [
             {"path": "/", "description": "This help message"},
             {"path": "/docs", "description": "Interactive API documentation"},
@@ -39,6 +39,10 @@ async def root():
             {"path": "/io/upload", "description": "Upload a file"},
             {"path": "/io/download/{filename}", "description": "Download a file"},
             {"path": "/io/process", "description": "Process text input"},
+            {"path": "/ds/data-structures", "description": "Overview of basic Python data structures"},
+            {"path": "/ds/data-structures/lists", "description": "Detailed examples of Python lists"},
+            {"path": "/ds/data-structures/dictionaries", "description": "Detailed examples of Python dictionaries"},
+            {"path": "/ds/data-structures/sets", "description": "Detailed examples of Python sets"},
         ]
     }
 
@@ -46,6 +50,7 @@ async def root():
 app.include_router(console_io.router, prefix="/io", tags=["Console I/O"])
 app.include_router(file_io.router, prefix="/io", tags=["File I/O"])
 app.include_router(string_io.router, prefix="/io", tags=["String I/O"])
+app.include_router(data_structures.router, prefix="/ds", tags=["Data Structures"])
 
 if __name__ == "__main__":
     import uvicorn
